@@ -1,0 +1,75 @@
+h1 {
+    text-align: center;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 2rem;
+}
+
+.container {
+    display: inline-block;
+    width: 200px;
+}
+
+.mid_body, .lower_body, .eyes, .head, .master_container{
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+}
+
+.parts {
+    background-color: rgba(0, 0, 240, 0.7);
+}
+
+.upper_head {
+    height: 45px;
+    width: 70px;
+    border-radius: 100% 100% 0 0;
+}
+
+.lower_head {
+    height: 15px;
+    width: 70px;
+    margin-bottom: 5px; 
+}
+.eye {
+    height: 10px;
+    width: 10px;
+    border-radius: 100%;
+    background-color: white;
+    margin: 0 10px;
+}
+
+.arm {
+    height: 50px;
+    width: 15px;
+    border-radius: 10% 10% 10% 10%;
+    margin: 0 5px;
+}
+
+.leg {
+    height: 30px;
+    width: 15px;
+    border-radius: 0 0 35% 35%;
+    margin: 0 3px;
+}
+
+.shape {
+    height: 80px;
+    width: 70px;
+    border-radius: 0 0 25% 25%;
+}
+
+.head {
+    transition: all 1s;
+}
+
+.head:hover {
+    transform: scaleX(2);
+}
+
+.leg {
+    transition: all 0.2s linear;
+}
+
+#left_leg:hover {
+    transform: rotate(30deg);
+}

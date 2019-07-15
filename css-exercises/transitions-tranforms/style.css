@@ -1,0 +1,115 @@
+body {
+    background-color: aliceblue;
+    margin: 0px;    /* so our line is draw all the way on the screen */
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.container2 {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.container_element {
+    display: inline-block;
+    width: 300px;
+}
+
+h1 {
+    font-size: 2rem;
+    font-family: 'Courier New', Courier, monospace;
+    color: darkcyan;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+h2 {
+    text-align: center;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-kerning: auto;
+    font-size: 1.5rem;
+}
+
+/* the p tag next to the h2 tag  */
+h2 + p {
+    text-align: center;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+#border {
+    border-bottom: 7px solid rgba(255, 0, 0, 0.7);
+}
+
+div.container p {
+    color: darkgreen;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding: 1rem;
+    text-align: center;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.box {
+    height: 40px;
+    width: 80px;
+    margin: 50px auto;/* this means that top an bottom margins will be of 50px and the right and left margins will be auto */
+    border-radius: 5px;
+}
+
+/* It will only do it when we hover the container and will apply it to the box inside the container_element */ 
+.container:hover .container_element .box {
+    transform: scale(2);
+}
+
+.box1 {
+    background-color: red;
+    transition: all 1s;
+}
+
+.box2 {
+    background-color: blue;
+}
+
+.container_element > p {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: indianred;
+    text-align: center;
+}
+.circle {
+    height: 50px;
+    width: 50px;
+    margin: 30px auto;
+    border-radius: 100%;
+}
+
+.container2:hover .container_element .circle {
+    transform: translateX(200px);
+}
+
+.c1 {
+    background-color: brown;
+    transition: all 1s linear;
+}
+
+.c2 {
+    background-color: green;
+    transition: all 1s ease;
+}
+
+.c3 {
+    background-color: black;
+    transition: all 1s ease-in;
+}
+
+.c4 {
+    background-color: orange;
+    transition: all 1s ease-out;
+}

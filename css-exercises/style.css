@@ -1,0 +1,17 @@
+/* 
+The naming convention:
+Selector {
+    Property: value
+}
+*/
+h2 {
+    color: red;
+}
+
+p {
+    color: pink;
+}
+
+p {
+    color: green;   /* This color will be taken because of the cascading property of css */
+}

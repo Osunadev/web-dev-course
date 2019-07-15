@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Secondary apple page</title>
+    </head>
+    <body style="background-color: bisque">
+        
+        <!-- We can use semantic tags so that our browser recongizes more efficiently (it gives an insight about how the website is structured) 
+             what our website is about, some examples are:
+            - header
+            - nav
+            - footer
+            - section
+            - article
+        -->
+        <!-- Although semantic web is still fairly new -->
+
+        <h1>This is the welcome apple page</h1>
+        <!-- This is a relative path -->
+        <a href="first_page.html" style="font-family: Arial, Helvetica, sans-serif">Go back to the beggining</a>
+
+        <br>
+        <h2>We are trying forms in HTML</h2>
+
+        <!-- Div is used for block elements. The div tag is very powerful when we get into CSS because
+             we can divide our content so that we can work more organized.
+            
+            Block elements are normally displayed with a new starting line.
+        -->
+        <div>
+            <!-- By default the method used in the form tag is GET, that's why everytime we use the submit input button, it shows
+                 a query string in our url of the page, where it includes all the information of the form. If we don't want that information
+                 as visible, we need to use de attribute method="POST" instead.-->
+            <form method="GET">
+                <!-- The "name" attribute will be shown in our query strings after
+                     we pressed the submit (register) button. That's why is important to include them-->
+
+                <!-- Using query strings is a way to communicate to the backend-->
+                First Name: <input type="text" name="firstname"><br>
+                Last Name: <input type="text" name="lastname"><br>
+                Email: <input type="email" name="email" required><br> <!-- "required" means that the email is required so the register can be completed-->
+                Birthday: <input type="date" name="birthday"><br>
+                Password: <input type="password" name="password" min="5"><br>
+                Gender:<br>
+
+                <input type="radio" name="gender" value="Male">Male<br>
+                <input type="radio" name="gender" value="Female">Female<br>
+                <input type="radio" name="gender" value="Other">Other<br>
+
+                Pets<br>
+                <input type="checkbox" name="cat">Cat<br>
+                <input type="checkbox" name="dog">Dog<br>
+                <br>
+
+                Cars<br>
+                <select multiple name="cars">
+                    <option value="volvo" name="volvo">Volvo</option>
+                    <option value="ford" name="ford">Ford</option>
+                </select><br>
+
+                <input type="submit" value="Register">
+                <input type="reset"><br><br>
+            </form>
+        </div>
+
+        <!-- span tag is used for inline elements (works the same as div). When
+             we want to have an invisible container.
+
+            Inline elements are normally displayed without starting a new line.
+        -->
+        <span>The span is</span>
+    </body>
+</html>

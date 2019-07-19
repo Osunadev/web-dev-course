@@ -1,0 +1,58 @@
+html, button {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+html {
+    margin: 0px 50px 50px 50px;
+}
+
+body {
+    margin: 0px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.container {
+    display: grid;
+    grid-template: 35vh 35vh / repeat(4, 1fr);
+    align-items: center;
+    justify-items: center;
+    background: linear-gradient(to right, rgb(255, 0, 0), rgb(0, 255, 0));
+}
+
+#text-bg {
+    grid-row-start: 2;
+    grid-column: 2 / span 2;
+    padding: 10px;
+    background: white;
+}
+
+#color-1 {
+    grid-column-start: 2;
+    justify-self: end;
+    align-self: end;
+    padding-right: 20px;
+}
+
+#color-2 {
+    justify-self: start;
+    align-self: end;
+    padding-left: 20px;
+}
+
+.box {
+    margin-top: 5px;
+}
+
+button {
+    width: 100%;
+    padding: 20px;
+    background: chocolate;
+    color: white;
+    font-size: 1.3rem;
+    font-weight: bold;
+    border: 0px;
+    text-transform: capitalize;
+}

@@ -45,7 +45,7 @@ let obj2 = {
 };
 
 let obj2Clone = Object.assign({}, obj2);
-let obj2Clone2 = { ...obj2 };
+let obj2Clone2 = { ...obj2 };   // Making use of Object spread operator
 
 obj2.c.text = "Bye";
 console.log(obj2); // They will have the same output

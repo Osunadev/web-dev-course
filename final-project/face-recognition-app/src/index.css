@@ -1,0 +1,36 @@
+body {
+  margin: 0;
+  font-family: 'Courier New', Courier, monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(89deg, lightgreen, rgb(0, 125, 200));
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+button {
+  cursor: pointer;
+}
+
+.particles {
+  /* Even if you scroll, everything stays exacty where it is */
+  position: fixed;
+  /* It makes sure the background is fixed */
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  /*  We can use z-index when our position is absoulute or fixed */
+  /* Because of our z-index of -1, we're saying that this "layer" should be
+  ** below of pretty much anything
+  */
+  z-index: -1;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+}

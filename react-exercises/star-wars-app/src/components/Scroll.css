@@ -1,0 +1,15 @@
+.scroll {
+  margin-top: 20px;
+  overflow-y: scroll;
+  height: 75vh;
+  padding: 20px;
+}
+
+@media (max-width: 700px) {
+  .scroll {
+    margin-top: 20px;
+    overflow-y: scroll;
+    height: 65vh;
+    padding: 20px;
+  }
+}

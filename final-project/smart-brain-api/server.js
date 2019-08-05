@@ -2,6 +2,26 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const bcryptjs = require('bcryptjs');
 const cors = require('cors');
+const knex = require('knex');
+
+// We're just runnng the knex config function
+const db = knex({
+  client: 'pg',
+  connection: {
+    // localhost
+    host: '127.0.0.1',
+    user: 'omar',
+    password: 'omar1234',
+    database: 'smart-brain'
+  }
+});
+
+// db.select('*').from('users') returns a promise
+db.select('*')
+  .from('users')
+  .then(data => {
+    console.log(data);
+  });
 
 const app = express();
 
@@ -68,20 +88,20 @@ app.post('/signin', (req, res) => {
 // to our server endpoint
 app.post('/register', (req, res) => {
   const { name, email, password } = req.body;
-
-  bcryptjs.hash(password, 10, (err, hash) => {
-    console.log(hash);
-  });
-
-  database.users.push({
-    id: '125',
-    name: name,
-    email: email,
-    entries: 0,
-    joined: new Date()
-  });
-
-  res.json(database.users[database.users.length - 1]);
+  db('users')
+    // returning('*'): We can do this instead of doing another select statement
+    // This says insert the user in our users table and return all the columns
+    .returning('*')
+    .insert({
+      email: email,
+      name: name,
+      joined: new Date()
+    })
+    .then(user => {
+      // We are not returning an array
+      res.json(user[0]);
+    })
+    .catch(err => res.status(400).json('unable to register'));
 });
 
 app.get('/profile/:id', (req, res) => {

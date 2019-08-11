@@ -8,9 +8,6 @@ import SignIn from '../components/SignIn/SignIn';
 import Register from '../components/Register/Register';
 import Particles from 'react-particles-js';
 import './App.css';
-
-import Clarifai from 'clarifai';
-
 // We get to know what are the best options by playing around a little bit
 const particleOptions = {
   particles: {
@@ -18,35 +15,33 @@ const particleOptions = {
       value: 100,
       density: {
         enable: true,
-        value_area: 800
+        value_area: 500
       }
     }
   }
 };
 
-const app = new Clarifai.App({
-  apiKey: '9b4ede90da504743bfab0a4e88e3f3a7'
-});
+const initialState = {
+  input: '',
+  imageUrl: '',
+  box: {},
+  // This is our initial route
+  route: 'SignIn',
+  isSignedIn: false,
+  // Ideally when we register, we can update this properties
+  user: {
+    id: '',
+    name: '',
+    email: '',
+    entries: 0,
+    joined: ''
+  }
+};
 
 class App extends React.Component {
   constructor() {
     super();
-    this.state = {
-      input: '',
-      imageUrl: '',
-      box: {},
-      // This is our initial route
-      route: 'SignIn',
-      isSignedIn: false,
-      // Ideally when we register, we can update this properties
-      user: {
-        id: '',
-        name: '',
-        email: '',
-        entries: 0,
-        joined: ''
-      }
-    };
+    this.state = initialState;
   }
 
   loadUser = data => {
@@ -68,8 +63,14 @@ class App extends React.Component {
   onPictureSubmit = () => {
     this.setState({ imageUrl: this.state.input });
 
-    app.models
-      .predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
+    fetch('http://localhost:8080/imageurl', {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        input: this.state.input
+      })
+    })
+      .then(response => response.json())
       .then(response => {
         // If the Clarifai API gives to us a valid response (everything went right)
         if (response) {
@@ -84,7 +85,8 @@ class App extends React.Component {
             .then(count => {
               // We only want to update the entries property
               this.setState(Object.assign(this.state.user, { entries: count }));
-            });
+            })
+            .catch(console.log);
         }
         this.displayFaceBox(this.calculateFaceLocation(response));
       })
@@ -92,8 +94,7 @@ class App extends React.Component {
   };
 
   calculateFaceLocation = data => {
-    const clarifaiFace =
-      data.outputs[0].data.regions[0].region_info.bounding_box;
+    const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
     const image = document.getElementById('inputimage');
     const width = Number(image.width);
     const height = Number(image.height);
@@ -112,7 +113,7 @@ class App extends React.Component {
 
   onRouteChange = routeName => {
     if (routeName === 'SignOut') {
-      this.setState({ isSignedIn: false });
+      this.setState(initialState);
     } else if (routeName === 'Home') {
       this.setState({ isSignedIn: true });
     }
@@ -123,29 +124,20 @@ class App extends React.Component {
     const { isSignedIn, box, imageUrl, route, user } = this.state;
 
     return (
-      <div className="App">
-        <Particles params={particleOptions} className="particles" />
-        <Navigation
-          onRouteChange={this.onRouteChange}
-          isSignedIn={isSignedIn}
-        />
+      <div className='App'>
+        <Particles params={particleOptions} className='particles' />
+        <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} />
         {route === 'Home' ? (
           <div>
             <Logo />
             <Rank name={user.name} entries={user.entries} />
-            <ImageLinkForm
-              inputChange={this.onInputChange}
-              buttonSubmit={this.onPictureSubmit}
-            />
+            <ImageLinkForm inputChange={this.onInputChange} buttonSubmit={this.onPictureSubmit} />
             <FaceRecognition box={box} imageUrl={imageUrl} />
           </div>
         ) : route === 'SignIn' ? (
           <SignIn onRouteChange={this.onRouteChange} loadUser={this.loadUser} />
         ) : (
-          <Register
-            onRouteChange={this.onRouteChange}
-            loadUser={this.loadUser}
-          />
+          <Register onRouteChange={this.onRouteChange} loadUser={this.loadUser} />
         )}
       </div>
     );

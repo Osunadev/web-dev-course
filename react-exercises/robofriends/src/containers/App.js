@@ -1,82 +1,62 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import CardList from '../components/CardList';
 import SearchBox from '../components/SearchBox';
 import Scroll from '../components/Scroll';
+import ErrorBoundary from '../components/ErrorBoundary';
 import './App.css';
 
+import { setSearchField, requestRobots } from '../actions';
+
+const mapStateToProps = state => {
+  return {
+    searchField: state.searchRobots.searchField,
+    robots: state.requestRobots.robots,
+    isPending: state.requestRobots.isPending,
+    error: state.requestRobots.error
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onSearchChange: event => dispatch(setSearchField(event.target.value)),
+    // This dispatch is going to woek as long as we use redux-thunk because it's
+    // going to catch the fact that this is going to return a function
+    onRequestRobots: () => dispatch(requestRobots())
+  };
+};
+
 class App extends React.Component {
-    constructor() {
-        super();
-        // The state to manage our application, that describes our app.
-        // This is something that can change change and affect our app.
-        
-        // The state usually lives in the parent component, the component
-        // than just kind of passes state to different components
-        this.state = {
-            robots: [],
-            searchfield: ''
-        }
-    }
+  componentDidMount() {
+    this.props.onRequestRobots();
+  }
 
-    // We are not using arrow functions because this is part of React\
-    componentDidMount() {
-        fetch('https://jsonplaceholder.typicode.com/users').then(response => {
-            return response.json();
-        })
-        .then(users => {
-            this.setState({ robots: users })
-        })
-    }
+  render() {
+    const { robots, isPending, searchField, onSearchChange } = this.props;
 
-    // We make a function/method so that we can pass it down to our
-    // SearchBox and act like a Callback event function
-    onSearchChange = (event) => {
-        // We can modify the state directy by using this.state.searchfield
-        // but  it will not lead to the Component re-rendering with new 
-        // data, and generally lead to state inconsistency.
-        this.setState({ searchfield: event.target.value });
-    }
+    // Generating an array of filtered robots so that we can pass it down to CardList
+    const filteredRobots = robots.filter(robot => {
+      return robot.name.toLowerCase().includes(searchField.toLowerCase());
+    });
 
-    // We use an arrow function like notation (class field experimental notation) for our onSearchChange listener
-    // to not make a binding on the constructor. This would be that case:
-
-    /* 
-        constructor() {
-            super();
-            this.state = {
-                robots: robots,
-                searchfield: ''
-            }
-
-            this.onSearchChange = this.onSearchChange.bind(this);
-        }
-
-        onSearchChange(event) {
-            this.setState({ searchfield: event.target.value });
-        }
-    */
-
-    render() {
-        const { robots, searchfield } = this.state; // We use destructuring to make te code more cleaner
-
-        // Generating an array of filtered robots so that we can pass it down to CardList
-        const filteredRobots = robots.filter(robot => {
-            return robot.name.toLowerCase().includes(searchfield.toLowerCase());
-        });
-
-        // If the users are not loaded yet
-        return !robots.length ? 
-        <h1>Loading...</h1> :  
-        (
-            <div className='tc'>
-                <h1>RoboFriends</h1> 
-                <SearchBox searchChange={this.onSearchChange}/>
-                <Scroll>
-                    <CardList robots={filteredRobots}/>
-                </Scroll>
-            </div>
-        );
-    }
+    // If the users are not loaded yet
+    return isPending ? (
+      <h1>Loading...</h1>
+    ) : (
+      <div className='tc'>
+        <h1>RoboFriends</h1>
+        <SearchBox searchChange={onSearchChange} />
+        <Scroll>
+          <ErrorBoundary>
+            <CardList robots={filteredRobots} />
+          </ErrorBoundary>
+        </Scroll>
+      </div>
+    );
+  }
 }
 
-export default App;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
